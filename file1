@@ -1,0 +1,150 @@
+#include <lodepng.c>
+#include <lodepng.h>
+#include <stdio.h>
+#include <stdlib.h>
+
+int main(){
+    int e = 0.00001;
+    int n = 100000000, m = 100000000; //где взять размер, массив, который выведут получится одномернымб как узнать, как его размер делится на n и m
+    char ar[n*m];
+    ar = lodepng1(png) //получить массив функцией из библиотеки, как она называется?
+    matr = malloc(n*m*sizeof(el))
+    make_set(ar, matr, n, m) //передать его в созд мн-ва
+    
+    for (x = 0; x < n; x++){  //просматривать созедей каждого из эл матрицы множеств, объединять если подхоят
+        for (y = 0; y < n; y++){
+            if (matr[x-1][y-1]){//проверку существования переделать на сравнение индексов
+                if (matr[x-1][y-1].d->r - matr[x][y].d->r < e && matr[x-1][y-1].d->g - matr[x][y].d->g < e && matr[x-1][y-1].d->b - matr[x][y].d->b < e && matr[x-1][y-1].d->i - matr[x][y].d->i < e){
+                    union_set((matr[x-1][y-1], matr[x][y]);
+                }
+            }
+            
+            if (matr[x-1][y]){
+                if (matr[x-1][y].d->r - matr[x][y].d->r < e && matr[x-1][y].d->g - matr[x][y].d->g < e && matr[x-1][y].d->b - matr[x][y].d->b < e && matr[x-1][y].d->i - matr[x][y].d->i < e){
+                    union_set((matr[x-1][y], matr[x][y]);
+                }
+            }
+            //
+            if (matr[x-1][y+1]){
+                if (matr[x-1][y+1].r - matr[x][y].r < e && matr[x-1][y+1].g - matr[x][y].g < e && matr[x-1][y+1].b - matr[x][y].b < e && matr[x-1][y+1].i - matr[x][y].i < e){
+                    union_set((matr[x-1][y+1], matr[x][y].r);
+                }
+            }
+            
+            if (matr[x][y-1]){
+                if (matr[x][y-1].r - matr[x][y].r < e && matr[x][y-1].g - matr[x][y].g < e && matr[x][y-1].b - matr[x][y].b < e && matr[x][y-1].i - matr[x][y].i < e){
+                    union_set((matr[x][y-1], matr[x][y].r);
+                }
+            }
+            
+            if (matr[x][y+1]){
+                if (matr[x][y+1].r - matr[x][y].r < e && matr[x][y+1].g - matr[x][y].g < e && matr[x][y+1].b - matr[x][y].b < e && matr[x][y+1].i - matr[x][y].i < e){
+                    union_set((matr[x][y+1], matr[x][y].r);
+                }
+            }
+            
+            if (matr[x+1][y-1]){
+                if (matr[x+1][y-1].r - matr[x][y].r < e && matr[x+1][y-1].g - matr[x][y].g < e && matr[x+1][y-1].b - matr[x][y].b < e && matr[x+1][y-1].i - matr[x][y].i < e){
+                    union_set((matr[x+1][y-1], matr[x][y].r);
+                }
+            }
+            
+            if (matr[x+1][y]){
+                if (matr[x+1][y].r - matr[x][y].r < e && matr[x+1][y].g - matr[x][y].g < e && matr[x+1][y].b - matr[x][y].b < e && matr[x+1][y].i - matr[x][y].i < e){
+                    union_set((matr[x+1][y], matr[x][y].r);
+                }
+            }
+            
+            if (matr[x+1][y+1]){
+                if (matr[x+1][y+1].r - matr[x][y].r < e && matr[x+1][y+1].g - matr[x][y].g < e && matr[x+1][y+1].b - matr[x][y].b < e && matr[x+1][y+1].i - matr[x][y].i < e){
+                    union_set((matr[x+1][y+1], matr[x][y].r);
+                }
+            }
+        }
+    }
+    
+    for (x = 0; x < n; x++){ //представителю каждого из итоговых множеситв записать рандомный цвет
+        for (y = 0; y < m; y++){
+            if (matr[x][y] -> pred == matr[x][y]){
+                matr[x][y].d->r = rand()/RAND_MAX;
+                matr[x][y].d->g = rand()/RAND_MAX;
+                matr[x][y].d->b = rand()/RAND_MAX;
+                matr[x][y].d->i = rand()/RAND_MAX;
+            }
+        }
+    }
+    
+    //пройти циклом вложенным по матрице, беру текущий эллементб записываю ему цвет представителя
+    //создать массив 4*n*m = a
+    i = 0
+    for(x = 0, x < n, x++){
+        for (y<m){
+            a[i] = mat[x][y].d->r;
+            a[i+1] = mat[x][y].d->g;
+            a[i+2] = mat[x][y].d->b;
+            a[i+3] = mat[x][y].d->i;
+            i+=4;
+        }
+    }
+    //этот массив передать в функцию из loadpng
+}
+
+//структура пикселя
+typedef struct pix{
+    char r;
+    char g;
+    char b;
+    char i;
+}
+
+//структура узла множества
+typedef struct el{
+    stuct el * pred; // ссылка на представителя
+    struct p * d; // ссылка на данные об этом пикселе
+    int rk; //изначально 0 для всех, увеличивается когда склеиваем два одинаковых по рангу, иначе больший ранг останется рангом ля нового множества
+    // для тех множеств, которым уже задали цветной цвет это -1 (ну как бы флаг)
+}
+
+//система непересекающихся множеств:
+void make_set(char *ar, el **matr, int n, int m){
+    int x, y, i = 0;
+    for (x = 0; x < n; x++){
+        for (y = 0; y < m; y++){
+            matr[x][y].pred = matr[x][y];
+            matr[x][y].d->r = ar[i];
+            matr[x][y].d->g = ar[i+1];
+            matr[x][y].d->b = ar[i+2];
+            matr[x][y].d->i = ar[i+4];
+            i+=4;
+            matr[x][y].rk = 0;
+        }
+    }
+}
+//преобрязовать набор из библиотеки (char размера n*m*4) в матрицу пикселей n*m, потом удалить, хотя можно и сразу пуннкт 2
+//пройти по всем эллементам матрицы и создать из них структуру узла соссылкой на себя, элементы хранить в матрице
+
+void union_set(el * el1, el * el2){
+    el * pred1 = el1;
+    el * pred2 = el2;
+    while (pred1->pred != pred1) {pred1 = pred1->pred;}
+    while (pred2->pred != pred2) {pred2 = pred2->pred;}
+    if (pred1 == pred2) return;
+    if (pred1->rk > pred2->rk) {pred2->pred = pred1;}
+    if (pred1->rk < pred2->rk) {pred1->pred = pred2;}
+    else {
+        pred2->pred = pred1;
+        pred1->rk += 1;
+    }
+} 
+//передаю 2 эллемента
+//найти предлставителя эл1 найти представителя эл2, если совпали вернуть
+//определитью у кого из них больший ранг, у меньшего предстваителя заменить ссылку на предстваителя
+// если рк были равны, увеличить у нового представителя на 1 
+
+struct el* find_set(el * el){
+    if el->pred == el return el;
+    return el->pred = x(el->pred);
+}
+
+
+
