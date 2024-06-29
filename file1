@@ -6,26 +6,27 @@
 int main(){
     int e = 0.00001;
     int n, m, er;
-    char * ar;
-    er = lodepng_encode32_file(&ar, &n, &m);
-    matr = malloc(n*m*sizeof(el))
-    make_set(ar, matr, n, m) //передать его в созд мн-ва
+    char * ar; //массив, в котором будут цвета пикселей
+    lodepng_encode32_file(&ar, &n, &m, photo_2024-06-29_10-30-44.jpg); //функция вернет размер картинки и цвета в одномерном массиве по 4 на 1 пиксель
+    matr = malloc(n*m*sizeof(el)); //в этой матрице булем хранить пиксели как эллементы объединенных мн-в
+    make_set(ar, matr, n, m); //передать его в созд мн-ва
     
-    for (x = 0; x < n; x++){  //просматривать созедей каждого из эл матрицы множеств, объединять если подхоят
+    for (x = 0; x < n; x++){  //просматривать соседей каждого из эл матрицы множеств, объединять если подхоят
         for (y = 0; y < n; y++){
-            if (matr[x-1][y-1]){//проверку существования переделать на сравнение индексов
-                if (matr[x-1][y-1].d->r - matr[x][y].d->r < e && matr[x-1][y-1].d->g - matr[x][y].d->g < e && matr[x-1][y-1].d->b - matr[x][y].d->b < e && matr[x-1][y-1].d->i - matr[x][y].d->i < e){
+            
+            if (x - 1 >= 0 && y - 1 >= 0){
+                if (abs(matr[x-1][y-1].d->r - matr[x][y].d->r) < e && abs(matr[x-1][y-1].d->g - matr[x][y].d->g) < e abs(&& matr[x-1][y-1].d->b - matr[x][y].d->b) < e){
                     union_set((matr[x-1][y-1], matr[x][y]);
                 }
             }
             
-            if (matr[x-1][y]){
+            if (x-1>=0 && y < m){//проверку существования переделать на сравнение индексов, добавит модуль и убрать сравнение глубины цвета
                 if (matr[x-1][y].d->r - matr[x][y].d->r < e && matr[x-1][y].d->g - matr[x][y].d->g < e && matr[x-1][y].d->b - matr[x][y].d->b < e && matr[x-1][y].d->i - matr[x][y].d->i < e){
                     union_set((matr[x-1][y], matr[x][y]);
                 }
             }
             //
-            if (matr[x-1][y+1]){
+            if (matr[x-1][y+1]){ 
                 if (matr[x-1][y+1].r - matr[x][y].r < e && matr[x-1][y+1].g - matr[x][y].g < e && matr[x-1][y+1].b - matr[x][y].b < e && matr[x-1][y+1].i - matr[x][y].i < e){
                     union_set((matr[x-1][y+1], matr[x][y].r);
                 }
@@ -62,14 +63,15 @@ int main(){
             }
         }
     }
-    
-    for (x = 0; x < n; x++){ //представителю каждого из итоговых множеситв записать рандомный цвет
-        for (y = 0; y < m; y++){
+
+    //представителю каждого из итоговых множеситв записать рандомный цвет
+    for (y = 0; y < m; y++){
+        for (x = 0; x < n; x++){ 
             if (matr[x][y] -> pred == matr[x][y]){
-                matr[x][y].d->r = rand()/RAND_MAX;
-                matr[x][y].d->g = rand()/RAND_MAX;
-                matr[x][y].d->b = rand()/RAND_MAX;
-                matr[x][y].d->i = rand()/RAND_MAX;
+                matr[x][y].d->r = rand(0, 255);
+                matr[x][y].d->g = rand(0, 255);
+                matr[x][y].d->b = rand(0, 255);
+                matr[x][y].d->i = rand(0, 255);
             }
         }
     }
